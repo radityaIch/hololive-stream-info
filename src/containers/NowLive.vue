@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import {ref} from 'vue'
+    import { ref, onMounted, onUpdated } from 'vue'
     import { useRoute } from 'vue-router'
     import LiveCard from '@/components/LiveCard.vue'
     export default {
@@ -53,7 +53,12 @@
                     streamDataLive.value.titleStream = selected[2]
                 }
             }
-            getStreamData()
+            onMounted(() => {
+                getStreamData()
+            })
+            onUpdated(() => {
+                getStreamData()
+            })
             return {streamDataLive, menu}
         }
     }

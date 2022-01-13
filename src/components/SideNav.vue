@@ -8,22 +8,24 @@
     </div>
     <ul class="nav-links">
       <li :class="{showMenu: isArrowDown}">
-        <a href="/" @click="changeMenu('Dashboard')">
-          <span class="pt-1 px-5">
-            <box-icon
-              animation="spin-hover"
-              size="25px"
-              color="#fff"
-              name="grid-alt"
-            />
-          </span>
-          <span class="link_name">Dashboard</span>
-        </a>
+        <router-link :to="'/'" @click="changeMenu('Dashboard')">
+          <a>
+            <span class="pt-1 px-5">
+              <box-icon
+                animation="spin-hover"
+                size="25px"
+                color="#fff"
+                name="grid-alt"
+              />
+            </span>
+            <span class="link_name">Dashboard</span>
+          </a>
+        </router-link>
         <ul class="sub-menu blank">
           <li>
-            <a class="link_name" href="/" @click="changeMenu('Dashboard')"
-              >Dashboard</a
-            >
+            <router-link :to="'/'" @click="changeMenu('Dashboard')">
+              <a class="link_name">Dashboard</a>
+            </router-link>
           </li>
         </ul>
       </li>
@@ -47,13 +49,13 @@
         <ul class="sub-menu">
           <li><a class="link_name" href="#">Live Streaming</a></li>
           <li>
-            <a href="/live-stream/now" @click="changeMenu('Live Streaming')">Now Streaming</a>
+            <router-link :to="'/live-stream/now'" @click="changeMenu('Live Streaming')">Now Streaming</router-link>
           </li>
           <li>
-            <a href="/live-stream/upcoming" @click="changeMenu('Live Streaming')">Upcoming</a>
+            <router-link :to="'/live-stream/upcoming'" @click="changeMenu('Live Streaming')">Upcoming</router-link>
           </li>
           <li>
-            <a href="/live-stream/ended" @click="changeMenu('Live Streaming')">Finished</a>
+            <router-link :to="'/live-stream/ended'" @click="changeMenu('Live Streaming')">Finished</router-link>
           </li>
         </ul>
       </li>
@@ -337,21 +339,24 @@
 
 <script>
 import {ref} from 'vue'
+import {useRoute} from 'vue-router'
 export default {
-    data(){
-      const currentMenu = ref("Dashboard")
+    setup(){
+      const router = useRoute() 
+      const currentMenu = ref('')
       const isClose = ref(true)
       const isArrowDown = ref(false)
+
       function showMenus() {
-          isClose.value = !isClose.value
+        isClose.value = !isClose.value
       }
       function showDropdown() {
-          isArrowDown.value = !isArrowDown.value
+        isArrowDown.value = !isArrowDown.value
       }
       function changeMenu(menu){
-        currentMenu.value = menu
+        currentMenu.value =  menu
       }
       return {changeMenu,currentMenu, isClose, isArrowDown, showMenus, showDropdown}
-    }
+    },
 }
 </script>

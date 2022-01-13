@@ -32,6 +32,9 @@
                             name="broadcast"
                         />
                     </span>
+                    <span class="whitespace-nowrap" v-if="diffTime(liveStart) == 0 && !liveEnd">
+                        Stream started less an hour ago
+                    </span>
                     <span class="whitespace-nowrap" v-if="diffTime(liveStart) > 0 && !liveEnd">
                         Stream started {{diffTime(liveStart)  > 1 ? `${diffTime(liveStart)} hours` :  `${diffTime(liveStart)} hour`}} ago
                     </span>

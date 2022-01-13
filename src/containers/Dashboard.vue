@@ -17,6 +17,11 @@
                         :liveStart="new Date(data.live_start)"
                      />
                 </div>
+                <button class="bg-neutral-900 hover:bg-slate-300 text-white hover:text-neutral-900 transition-all px-5 py-2">
+                    <router-link :to="'/live-stream/now'">
+                        More
+                    </router-link>
+                </button>
             </div>
 
             <div class="live-stream">
@@ -35,6 +40,11 @@
                         :liveStart="new Date(data.live_schedule)"
                      />
                 </div>
+                <button class="bg-neutral-900 hover:bg-slate-300 text-white hover:text-neutral-900 transition-all px-5 py-2">
+                    <router-link :to="'/live-stream/upcoming'">
+                        More
+                    </router-link>
+                </button>
             </div>
 
             <div class="live-stream">
@@ -53,6 +63,11 @@
                         :liveEnd="new Date(data.live_end)"
                      />
                 </div>
+                <button class="bg-neutral-900 hover:bg-slate-300 text-white hover:text-neutral-900 transition-all px-5 py-2">
+                    <router-link :to="'/live-stream/ended'">
+                        More
+                    </router-link>
+                </button>
             </div>
         </div>
     </section>
@@ -109,21 +124,18 @@
         padding: 1rem;
         width: 90%;
     }
-
     .dashboard .dashboard-container .live-stream h1{
         font-size: 1.7em;
         margin-bottom: 1.5rem;
     }
     .dashboard .dashboard-container .live-stream{
         width: 90%;
+        margin-bottom: 3rem;
     }
     .dashboard .dashboard-container .live-stream .video-list{
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin-bottom: 2rem;
     }
-
-    
 </style>
