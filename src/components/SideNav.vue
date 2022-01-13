@@ -8,7 +8,7 @@
     </div>
     <ul class="nav-links">
       <li :class="{showMenu: isArrowDown}">
-        <a href="#" @click="changeMenu('Dashboard')">
+        <a href="/" @click="changeMenu('Dashboard')">
           <span class="pt-1 px-5">
             <box-icon
               animation="spin-hover"
