@@ -8,11 +8,11 @@
                 <span class="mr-3">
                     <img width="120" height="120" :src="profilePic">
                 </span>
-                <a :href="link">{{truncateText(title, 40)}}</a>
+                <a :href="link">{{truncateText(title, 26)}}</a>
             </h3>
             <div class="text-info">
                 <a :href="channelLink" class="flex items-center">
-                    <span class="mr-1">{{channel}}</span>
+                    <span class="mr-1 hover:underline underline-offset-2 transition-all duration-700">{{channel}}</span>
                     <span>
                         <box-icon animation="tada-hover" type='solid' size="20px" color="#ccc" name='badge-check'></box-icon>
                     </span>
@@ -32,7 +32,15 @@
                             name="broadcast"
                         />
                     </span>
-                    Stream started {{diffTime(liveStart)}} hour ago
+                    <span class="whitespace-nowrap" v-if="diffTime(liveStart) > 0 && !liveEnd">
+                        Stream started {{diffTime(liveStart)  > 1 ? `${diffTime(liveStart)} hours` :  `${diffTime(liveStart)} hour`}} ago
+                    </span>
+                    <span class="whitespace-nowrap" v-if="diffTime(liveStart) < 0 && !liveEnd">
+                        Stream will start in {{Math.abs(diffTime(liveStart)) > 1 ? `${Math.abs(diffTime(liveStart))} hours` :  `${Math.abs(diffTime(liveStart))} hour`}}
+                    </span>
+                    <span class="whitespace-nowrap" v-if="diffTime(liveEnd) > 0 && !livestart">
+                        Stream ended {{diffTime(liveEnd)  > 1 ? `${diffTime(liveEnd)} hours` :  `${diffTime(liveEnd)} hour`}} ago
+                    </span>
                 </p>
             </div>
         </div>
@@ -50,8 +58,9 @@
             link: { type: String, default: "" },
             channel: { type: String, default: "" },
             channelLink: { type: String, default: "" },
-            liveWatch: { type: Number, default: "" },
+            liveWatch: { type: Number, default: 0 },
             liveStart: { type: String, default: "" },
+            liveEnd: { type: String, default: "" },
         },
         setup() {
             const truncateText = (str, length, ending) => {
@@ -80,11 +89,15 @@
 <style scoped>
     .video-item{
         max-width: 280px;
-        margin: 1rem;
+        margin-bottom: 2rem;
+    }
+    .video-item .img-video{
+        width: 280px;
+        height: 160px;
     }
     .video-item .img-video img{
         width: 100%;
-        height: 160px;
+        height: 100%;
         object-fit: cover;
     }
     .text-video{

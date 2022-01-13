@@ -21,7 +21,7 @@
         </a>
         <ul class="sub-menu blank">
           <li>
-            <a class="link_name" href="#" @click="changeMenu('Dashboard')"
+            <a class="link_name" href="/" @click="changeMenu('Dashboard')"
               >Dashboard</a
             >
           </li>
@@ -47,13 +47,13 @@
         <ul class="sub-menu">
           <li><a class="link_name" href="#">Live Streaming</a></li>
           <li>
-            <a href="#" @click="changeMenu('Live Streaming')">Now Streaming</a>
+            <a href="/live-stream/now" @click="changeMenu('Live Streaming')">Now Streaming</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('Live Streaming')">Upcoming</a>
+            <a href="/live-stream/upcoming" @click="changeMenu('Live Streaming')">Upcoming</a>
           </li>
           <li>
-            <a href="#" @click="changeMenu('Live Streaming')">Finished</a>
+            <a href="/live-stream/ended" @click="changeMenu('Live Streaming')">Finished</a>
           </li>
         </ul>
       </li>
@@ -298,8 +298,9 @@
   font-size: 12px;
 }
 .home-section {
-  position: relative;
+  position: fixed;
   background: #e4e9f7;
+  z-index: 50;
   /* height: 100vh; */
   left: 260px;
   width: calc(100% - 260px);

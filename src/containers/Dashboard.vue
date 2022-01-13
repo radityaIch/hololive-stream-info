@@ -5,7 +5,7 @@
                 <h1>Now Streaming</h1>
                 <div class="video-list">
                     <LiveCard
-                        v-for="data in streamData.slice(0,3)"
+                        v-for="data in streamDataLive.slice(1,4)"
                         :key="data.id"
                         :thumbnail="`https://img.youtube.com/vi/${data.yt_video_key}/hqdefault.jpg`"
                         :profilePic="data.channel.photo"
@@ -14,7 +14,7 @@
                         :channel="data.channel.name"
                         :channelLink="`https://www.youtube.com/channel/${data.channel.yt_channel_id}`"
                         :liveWatch="data.live_viewers || 'no'"
-                        :liveStart="new Date(data.live_schedule)"
+                        :liveStart="new Date(data.live_start)"
                      />
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <h1>Upcoming Stream</h1>
                 <div class="video-list">
                      <LiveCard
-                        v-for="data in streamData.slice(0,3)"
+                        v-for="data in streamDataUpcoming.slice(1,4)"
                         :key="data.id"
                         :thumbnail="`https://img.youtube.com/vi/${data.yt_video_key}/hqdefault.jpg`"
                         :profilePic="data.channel.photo"
@@ -41,7 +41,7 @@
                 <h1>Finished Stream</h1>
                 <div class="video-list">
                      <LiveCard
-                        v-for="data in streamData.slice(0,3)"
+                        v-for="data in streamDataFinished.slice(1,4)"
                         :key="data.id"
                         :thumbnail="`https://img.youtube.com/vi/${data.yt_video_key}/hqdefault.jpg`"
                         :profilePic="data.channel.photo"
@@ -50,7 +50,7 @@
                         :channel="data.channel.name"
                         :channelLink="`https://www.youtube.com/channel/${data.channel.yt_channel_id}`"
                         :liveWatch="data.live_viewers || 'no'"
-                        :liveStart="new Date(data.live_schedule)"
+                        :liveEnd="new Date(data.live_end)"
                      />
                 </div>
             </div>
@@ -67,17 +67,20 @@
             LiveCard
         },
         setup(){
-            const streamData = ref([])
+            const streamDataLive = ref([])
+            const streamDataUpcoming = ref([])
+            const streamDataFinished = ref([])
             async function getStreamData(){
                 const response = await fetch(
                     'https://api.holotools.app/v1/live'
                 )
                 const payload = await response.json()
-                streamData.value = payload.live;
-                console.log(payload.live)
+                streamDataLive.value = payload.live
+                streamDataUpcoming.value = payload.upcoming
+                streamDataFinished.value = payload.ended
             }
             getStreamData()
-            return {streamData}
+            return {streamDataLive, streamDataUpcoming, streamDataFinished}
         }
     }
 </script>
@@ -92,6 +95,7 @@
 <style scoped>
     .dashboard{
         left: 260px;
+        top: 60px;
         position: relative;
         width: calc(100% - 260px);
         transition: all 0.5s ease;
@@ -110,7 +114,9 @@
         font-size: 1.7em;
         margin-bottom: 1.5rem;
     }
-
+    .dashboard .dashboard-container .live-stream{
+        width: 90%;
+    }
     .dashboard .dashboard-container .live-stream .video-list{
         display: flex;
         flex-direction: row;
