@@ -21,7 +21,7 @@
                     <span class="mr-1">
                         <box-icon type='solid' size="25px" color="#ccc" name='group'></box-icon>
                     </span>
-                    {{liveWatch}} people is watching
+                    {{!liveWatch ? 'no' : liveWatch}} people is watching
                 </p>
                 <p class="flex items-center">
                     <span class="mr-1">
@@ -62,8 +62,8 @@
             channel: { type: String, default: "" },
             channelLink: { type: String, default: "" },
             liveWatch: { type: Number, default: 0 },
-            liveStart: { type: String, default: "" },
-            liveEnd: { type: String, default: "" },
+            liveStart: { type: Date, default: null },
+            liveEnd: { type: Date, default: null },
         },
         setup() {
             const truncateText = (str, length, ending) => {

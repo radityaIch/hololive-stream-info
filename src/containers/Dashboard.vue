@@ -76,10 +76,12 @@
 <script>
     import {ref} from 'vue'
     import LiveCard from '@/components/LiveCard.vue'
+    import Search from '@/components/Search.vue'
     export default {
         name: 'Dashboard',
         components: {
-            LiveCard
+            LiveCard,
+            Search
         },
         setup(){
             const streamDataLive = ref([])

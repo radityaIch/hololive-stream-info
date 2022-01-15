@@ -2,10 +2,11 @@
     <section class="now-live">
         <div class="now-live-container">
             <div class="live-stream">
+                <Search />
                 <h1>{{streamDataLive.titleStream}}</h1>
                 <div class="video-list">
                     <LiveCard
-                        v-for="data in streamDataLive.slice(1)"
+                        v-for="data in !route.query.search ? streamDataLive.slice(1) : streamDataLive"
                         :key="data.id"
                         :thumbnail="`https://img.youtube.com/vi/${data.yt_video_key}/hqdefault.jpg`"
                         :profilePic="data.channel.photo"
@@ -13,8 +14,8 @@
                         :link="`https://www.youtube.com/watch?v=${data.yt_video_key}`"
                         :channel="data.channel.name"
                         :channelLink="`https://www.youtube.com/channel/${data.channel.yt_channel_id}`"
-                        :liveWatch="data.live_viewers || 'no'"
-                        :liveStart="new Date(data.live_start)"
+                        :liveWatch="data.live_viewers || 0"
+                        :liveStart="route.params.type === 'upcoming' ? new Date(data.live_schedule) : new Date(data.live_start)"
                      />
                 </div>
             </div>
@@ -26,10 +27,12 @@
     import { ref, onMounted, onUpdated } from 'vue'
     import { useRoute } from 'vue-router'
     import LiveCard from '@/components/LiveCard.vue'
+    import Search from '@/components/Search.vue'
     export default {
         name: 'now-live',
         components: {
-            LiveCard
+            LiveCard,
+            Search
         },
         setup(){
             const route = useRoute()
@@ -43,13 +46,16 @@
                 const payload = await response.json()
                 menu.value = route.params.type
                 if(menu.value === 'now'){
-                    streamDataLive.value = payload.live
+                    streamDataLive.value = !route.query.search ? payload.live 
+                        : payload.live.filter( data => new RegExp(route.query.search, "i").test(data.channel.name))
                     streamDataLive.value.titleStream = selected[0]
                 }else if(menu.value === 'upcoming'){
-                    streamDataLive.value = payload.upcoming
+                    streamDataLive.value = !route.query.search ? payload.upcoming 
+                        : payload.upcoming.filter( data => new RegExp(route.query.search, "i").test(data.channel.name))
                     streamDataLive.value.titleStream = selected[1]
                 }else if(menu.value === 'ended'){
-                    streamDataLive.value = payload.ended
+                    streamDataLive.value = !route.query.search ? payload.ended 
+                        : payload.ended.filter( data => new RegExp(route.query.search, "i").test(data.channel.name))
                     streamDataLive.value.titleStream = selected[2]
                 }
             }
@@ -59,7 +65,7 @@
             onUpdated(() => {
                 getStreamData()
             })
-            return {streamDataLive, menu}
+            return {streamDataLive, menu, route}
         }
     }
 </script>
