@@ -36,18 +36,20 @@
     }
 </style>
 <script>
-    import { ref } from "vue";
-    import { useRouter } from "vue-router";
+    import { ref } from "vue"
+    import { useRouter } from "vue-router"
     export default {
         name: 'Search',
         setup() {
-            const router = useRouter();
-            const search = ref("");
+            const router = useRouter()
+            const search = ref("")
 
             async function streamSearchData() {
                 if (search.value) {
-                    router.push(`?search=${search.value}`);
+                    router.push(`?search=${search.value}`)
+                    return
                 }
+                router.replace('')
             }
             return {
                 search,
